@@ -18,11 +18,10 @@ public class MessangesPage {
                         "Входящие"));
     }
 
-    @FindBy(xpath = "//a[@data-subject = 'Fwd: вакансия в CSI']")
-    private WebElement letterPrepared;
-
-    public LetterPage clickPreparedLetter() {
-        letterPrepared.click();
+    public LetterPage clickPreparedLetter(String theme) {
+        String templateXpath = "//a[@data-subject = '%s']";
+        driver.findElement((By.xpath(String.format(templateXpath,theme)))).click();;
         return new LetterPage(driver);
     }
+
 }

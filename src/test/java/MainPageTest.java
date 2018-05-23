@@ -1,8 +1,5 @@
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
@@ -18,7 +15,6 @@ public class MainPageTest {
 
     @Before
     public void setUp(){
-       // System.setProperty("webdriver.chrome.driver", "C:\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.manage().window().maximize();
@@ -29,13 +25,20 @@ public class MainPageTest {
     @Test
     public void test(){
        MessangesPage messangesPage = loginPage.register("xodak2009", "Backd00r");
-       LetterPage letterPage = messangesPage.clickPreparedLetter();
+       LetterPage letterPage = messangesPage.clickPreparedLetter("Fwd: вакансия в CSI");
+
        String theme = letterPage.getLetterSubject();
        String sender = letterPage.getLetterSender();
        String content = letterPage.getLetterContent();
-       Assert.assertEquals("Тема письма не совпадает","Fwd: вакансия в CSI", theme);
-       Assert.assertEquals("Отправитель письма не совпадает","игорь скоробогатый <stronginaheart@gmail.com>", sender);
-       Assert.assertEquals("Содержание письма не совпадает","ТЗ для QA\n.pdf", content);
+
+       try {
+           Assert.assertEquals( "Fwd: вакансия в CSI", theme);
+           Assert.assertEquals("игорь скоробогатый <stronginaheart@gmail.com>", sender);
+           Assert.assertEquals("ТЗ для QA\n.pdf", content);
+       }catch (ComparisonFailure e){
+           System.out.println(e.getMessage());
+           }
+
        letterPage.clickSignUp();
     }
 
